@@ -1,12 +1,12 @@
 from flask import Flask, jsonify
 import flask
-from flask_restful import Api, Resource, reqparse
+#from flask_restful import Api, Resource, reqparse
 import pandas as pd
 import myModel
 import json
 
 app = Flask(__name__)
-api = Api(app)  
+# api = Api(app)  
 path = 'dataset/'
 dbClientModel = myModel.CSV_DataBase(path + 'application_test.csv')
 dbClientPrets = myModel.CSV_DataBase(path + 'bureau.csv')
