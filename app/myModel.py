@@ -96,7 +96,10 @@ class Model:
     """load the model 
     """
     def __init__(self, model:str, database:DataBase):
-        self.model = joblib.load(model)
+        part1 = joblib.load('modelPart1.joblib')
+        part2 = joblib.load('modelePart2.joblib')
+        model_bytes = part1 + part2
+        self.model = pickle.loads(model_bytes)
         self.database = database
 
     def predict(self, input_data:pd.DataFrame)->List[List[float]]:
