@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 import flask
 #from flask_restful import Api, Resource, reqparse
 import pandas as pd
-import app.myModel
+import app.myModel as myModel
 import json
 
 app = Flask(__name__)
