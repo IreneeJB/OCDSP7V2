@@ -7,7 +7,7 @@ import json
 
 app = Flask(__name__)
 # api = Api(app)  
-path = 'dataset/'
+path = 'app/dataset/'
 dbClientModel = myModel.CSV_DataBase(path + 'application_test.csv')
 dbClientPrets = myModel.CSV_DataBase(path + 'bureau.csv')
 mymodel = myModel.Model('pipeline.joblib', dbClientModel)
