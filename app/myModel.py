@@ -96,7 +96,7 @@ class CSV_DataBase(DataBase):
 class Model:
     """load the model 
     """
-    def __init__(self, database:DataBase):
+    def __init__(self, path:str, database:DataBase):
         part1 = joblib.load(path + 'modelPart1.joblib')
         part2 = joblib.load(path + 'modelPart2.joblib')
         model_bytes = part1 + part2
