@@ -6,6 +6,7 @@ from typing import List, Dict, Any,Optional
 import statistics
 import requests
 import json
+import pickle
 
 logging.basicConfig(format='%(asctime)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %H:%M:%S')
 log = logging.getLogger()
@@ -95,9 +96,9 @@ class CSV_DataBase(DataBase):
 class Model:
     """load the model 
     """
-    def __init__(self, model:str, database:DataBase):
-        part1 = joblib.load('modelPart1.joblib')
-        part2 = joblib.load('modelPart2.joblib')
+    def __init__(self, database:DataBase):
+        part1 = joblib.load(path + 'modelPart1.joblib')
+        part2 = joblib.load(path + 'modelPart2.joblib')
         model_bytes = part1 + part2
         self.model = pickle.loads(model_bytes)
         self.database = database

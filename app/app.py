@@ -10,7 +10,7 @@ app = Flask(__name__)
 path = 'app/dataset/'
 dbClientModel = myModel.CSV_DataBase(path + 'application_test.csv')
 dbClientPrets = myModel.CSV_DataBase(path + 'bureau.csv')
-mymodel = myModel.Model('pipeline.joblib', dbClientModel)
+mymodel = myModel.Model(database = dbClientModel)
 
 myModel.log.info("ready to start")
 
