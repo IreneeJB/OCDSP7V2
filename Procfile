@@ -1,1 +1,1 @@
-web: gunicorn wsgi:app
+web: streamlit run app/DashBoardStreamlit.py
