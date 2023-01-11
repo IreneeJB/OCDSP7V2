@@ -113,6 +113,7 @@ class Model:
 
     def predict_id(self, id_client:int)->List[List[float]]:
         log.info(f"Prediction for client id: {id_client}")
+        print(self.database.get_id_client(id_client))
         return self.predict(self.database.get_id_client(id_client))
 
 class ClientAPI:
