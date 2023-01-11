@@ -106,7 +106,10 @@ class Model:
     def predict(self, input_data:pd.DataFrame)->List[List[float]]:
         """return the prediction for the input_data
         """
-        prediction = self.model.predict_proba(input_data.drop(['SK_ID_CURR', 'OWN_CAR_AGE'], axis = 1))
+        try :
+            prediction = self.model.predict_proba(input_data.drop(['SK_ID_CURR', 'OWN_CAR_AGE', 'OCCUPATION_TYPE'], axis = 1))
+        except ValueError :
+            raise Error
         log.debug(f'Pred : {prediction}')
         log.info(f'Pred% : {prediction[0][0]*100 : 0.2f}%')
         return prediction
