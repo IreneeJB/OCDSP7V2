@@ -206,6 +206,18 @@ class ClientAPI:
             req = self.make_request(f"/api/v1/prediction/{id_client}")
             self.cache[cache_key][str(id_client)] = req
             return req
+
+    def get_features_importance(self, id_client:int, using_cache:bool=True)->Dict[Any, Any]:
+        """using cache (or not), make a requests to get feature_importance for 1 client
+        """
+        cache_key = "feature_importance"
+        if str(id_client) in self.cache[cache_key] and using_cache:
+            log.debug(f"using cache feature_importance: {list(self.cache[cache_key].keys())}")
+            return self.cache[cache_key][str(id_client)]
+        else:
+            req = self.make_request(f"/api/v1/importance/{id_client}")
+            self.cache[cache_key][str(id_client)] = req
+            return req
     
     def load_cache(self,file, update:bool=False):
         with open(file, 'r') as fp:
@@ -223,9 +235,6 @@ class ClientAPI:
 
 if __name__ == '__main__':
     mydb = CSV_DataBase('application_test.csv')
-    #mymodel = Model('pipeline.joblib', mydb)
-    #mymodel.predict_id(125)
-
     print(DataBase.DataFrame2Json(mydb.get_id_client(125)))
     print(mydb.get_group(125))
     print(mydb.statOnGroup(mydb.get_group(125)))
