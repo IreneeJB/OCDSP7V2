@@ -1,12 +1,11 @@
 from flask import Flask, jsonify
 import flask
-#from flask_restful import Api, Resource, reqparse
 import pandas as pd
 import app.myModel as myModel
 import json
+from yellowbrick.model_selection import FeatureImportances
 
 app = Flask(__name__)
-# api = Api(app)  
 path = 'app/dataset/'
 dbClientModel = myModel.CSV_DataBase(path + 'application_test.csv')
 dbClientPrets = myModel.CSV_DataBase(path + 'bureau.csv')
@@ -42,6 +41,12 @@ def get_client_prets(client_id:int) :
     myModel.log.debug(infos)
     return flask.jsonify(infos)
 
+@app.route('/api/v1/importance/<client_id>', methods=['GET'])
+def get_importance(client_id:int):
+    client_id = int(client_id)
+    myModel.log.info(f"get feature importance for {client_id}")
+    features, features_importance = mymodel.get_importance(client_id)
+    return flask.jsonify([features, features_importance])
 
 
 if __name__ == '__main__':

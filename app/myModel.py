@@ -7,6 +7,7 @@ import statistics
 import requests
 import json
 import pickle
+from yellowbrick.model_selection import FeatureImportances
 
 logging.basicConfig(format='%(asctime)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %H:%M:%S')
 log = logging.getLogger()
@@ -102,6 +103,7 @@ class Model:
         model_bytes = part1 + part2
         self.model = pickle.loads(model_bytes)
         self.database = database
+        del part1, part2, model_bytes
 
     def predict(self, input_data:pd.DataFrame)->List[List[float]]:
         """return the prediction for the input_data
@@ -115,10 +117,31 @@ class Model:
         return prediction
 
     def predict_id(self, id_client:int)->List[List[float]]:
+        """return the prediction for the client id
+        """
         log.info(f"Prediction for client id: {id_client}")
         print(self.database.get_id_client(id_client))
         return self.predict(self.database.get_id_client(id_client))
 
+    def get_features_names(self) :
+        transformer = self.model['transformer']
+        onehot_columns = transformer.transformers_[0][1].get_feature_names_out().tolist()
+        target_columns = transformer.transformers_[1][2]
+        scaler_columns = transformer.transformers_[2][2]
+        features_names = onehot_columns + target_columns + scaler_columns
+        return features_names
+
+    def importance(self, id_client:int) :
+        features_names = self.get_features_names()
+        clients_informations = self.database.get_id_client(id_client)
+        clients_input = self.model['transformer'].transform(clients_informations)
+        clients_input = pd.DataFrame(clients_input, columns = features_names)
+
+        # feature importance
+        viz = FeatureImportances(self.model['classifier'])
+        viz.fit(clients_input)
+        return viz.features_[-30:], viz.feature_importances_[-30:]
+        
 class ClientAPI:
     def __init__(self, server:str, cache:str=None):
         """
