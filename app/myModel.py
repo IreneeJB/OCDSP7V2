@@ -132,15 +132,23 @@ class Model:
         return features_names
 
     def importance(self, id_client:int) :
-        features_names = self.get_features_names()
-        clients_informations = self.database.get_id_client(id_client)
-        clients_input = self.model['transformer'].transform(clients_informations)
-        clients_input = pd.DataFrame(clients_input, columns = features_names)
+        try :
+            viz = FeatureImportances(self.model)
+            clients_informations = self.database.get_id_client(id_client)
+            viz.fit(clients_input)
+            return viz.features_[-30:], viz.feature_importances_[-30:]
+            
+        except :
 
-        # feature importance
-        viz = FeatureImportances(self.model['classifier'])
-        viz.fit(clients_input)
-        return viz.features_[-30:], viz.feature_importances_[-30:]
+            features_names = self.get_features_names()
+            clients_informations = self.database.get_id_client(id_client)
+            clients_input = self.model['transformer'].transform(clients_informations)
+            clients_input = pd.DataFrame(clients_input, columns = features_names)
+
+            # feature importance
+            viz = FeatureImportances(self.model['classifier'])
+            viz.fit(clients_input)
+            return viz.features_[-30:], viz.feature_importances_[-30:]
         
 class ClientAPI:
     def __init__(self, server:str, cache:str=None):
