@@ -46,7 +46,7 @@ def get_importance(client_id:int):
     client_id = int(client_id)
     myModel.log.info(f"get feature importance for {client_id}")
     features, features_importance = mymodel.importance(client_id)
-    return flask.jsonify([features, features_importance])
+    return flask.jsonify([features.tolist(), features_importance.tolist()])
 
 
 if __name__ == '__main__':
