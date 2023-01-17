@@ -45,7 +45,7 @@ def get_client_prets(client_id:int) :
 def get_importance(client_id:int):
     client_id = int(client_id)
     myModel.log.info(f"get feature importance for {client_id}")
-    features, features_importance = mymodel.get_importance(client_id)
+    features, features_importance = mymodel.importance(client_id)
     return flask.jsonify([features, features_importance])
 
 
