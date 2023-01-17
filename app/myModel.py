@@ -155,6 +155,7 @@ class ClientAPI:
                 "info":{},
                 "prediction":{},
                 "prets":{},
+                "feature_importance":{}
         }
 
         if cache:
