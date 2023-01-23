@@ -50,7 +50,7 @@ class CSV_DataBase(DataBase):
         mask = self.data['SK_ID_CURR'] == id_client
         print(3.3)
         print(mask.sum())
-        client_data = self.data.loc[mask,:]
+        client_data = self.data.iloc[mask,:]
         print(3.4)
         if 1 in client_data.shape : 
             print(3.5)
