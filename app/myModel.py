@@ -47,7 +47,8 @@ class CSV_DataBase(DataBase):
         super().get_id_client()
         print(3.2)
         print(id_client)
-        client_data = self.data.loc[self.data['SK_ID_CURR'] == id_client,:]
+        mask = self.data['SK_ID_CURR'] == id_client
+        client_data = self.data.loc[mask,:]
         print(3.3)
         if 1 in client_data.shape : 
             print(3.4)
