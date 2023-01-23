@@ -54,7 +54,7 @@ class CSV_DataBase(DataBase):
             client_data = client_data.to_numpy().reshape(1, -1)
             print(3.5)
             client_data = pd.DataFrame(client_data, columns = self.data.columns)
-            print(3.6)
+        print(3.6)
         return client_data 
 
     def get_group(self, id_client:int)->pd.DataFrame:
