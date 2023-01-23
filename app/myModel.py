@@ -7,7 +7,6 @@ import statistics
 import requests
 import json
 import pickle
-from yellowbrick.model_selection import FeatureImportances
 
 logging.basicConfig(format='%(asctime)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %H:%M:%S')
 log = logging.getLogger()

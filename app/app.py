@@ -3,7 +3,6 @@ import flask
 import pandas as pd
 import app.myModel as myModel
 import json
-from yellowbrick.model_selection import FeatureImportances
 import shap
 
 app = Flask(__name__)
