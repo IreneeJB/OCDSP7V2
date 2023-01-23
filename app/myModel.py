@@ -43,11 +43,17 @@ class CSV_DataBase(DataBase):
     def get_id_client(self, id_client:int)->pd.DataFrame:
         """take a id_client and return a dataframe
         """
+        print(3.1)
         super().get_id_client()
+        print(3.2)
         client_data = self.data.loc[self.data['SK_ID_CURR'] == id_client,:]
+        print(3.3)
         if 1 in client_data.shape : 
+            print(3.4)
             client_data = client_data.to_numpy().reshape(1, -1)
+            print(3.5)
             client_data = pd.DataFrame(client_data, columns = self.data.columns)
+            print(3.6)
         return client_data 
 
     def get_group(self, id_client:int)->pd.DataFrame:
