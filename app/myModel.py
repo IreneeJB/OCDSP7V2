@@ -160,100 +160,100 @@ class Model:
         shapdf = shapdf.loc[index,:]
         return shapdf
 
-class ClientAPI:
-    def __init__(self, server:str, cache:str=None):
-        """
-        :param str cache: path file of json file to load a cache
-        """
-        if server.endswith("/"):
-            server = server[:-1]
-        self.server = server
+# class ClientAPI:
+#     def __init__(self, server:str, cache:str=None):
+#         """
+#         :param str cache: path file of json file to load a cache
+#         """
+#         if server.endswith("/"):
+#             server = server[:-1]
+#         self.server = server
         
-        self.cache = {
-                "info":{},
-                "prediction":{},
-                "prets":{},
-                "feature_importance":{}
-        }
+#         self.cache = {
+#                 "info":{},
+#                 "prediction":{},
+#                 "prets":{},
+#                 "feature_importance":{}
+#         }
 
-        if cache:
-            self.load_cache(cache, update=True)
+#         if cache:
+#             self.load_cache(cache, update=True)
 
-    def make_request(self, url:str, method:Optional[str]="get")->Dict[Any, Any]:
-        if url.startswith("/"):
-            url = url[1:]
-        url = f"{self.server}/{url}"
-        log.info(f"make reqests to {url}")
-        r = requests.get(url)
-        if r.status_code != 200:
-            log.critical(f"invalid response: {r.status} to {url}")
-            return None
-        return r.json()
+#     def make_request(self, url:str, method:Optional[str]="get")->Dict[Any, Any]:
+#         if url.startswith("/"):
+#             url = url[1:]
+#         url = f"{self.server}/{url}"
+#         log.info(f"make reqests to {url}")
+#         r = requests.get(url)
+#         if r.status_code != 200:
+#             log.critical(f"invalid response: {r.status} to {url}")
+#             return None
+#         return r.json()
 
-    def get_client_prets(self, id_client:int, using_cache:bool=True)->Dict[str, Any]:
-        """using cache (or not), make a requests to get client info
-        """
-        cache_key = "prets"
-        if str(id_client) in self.cache[cache_key] and using_cache:
-            log.debug(f"using cache info: {list(self.cache[cache_key].keys())}")
-            return self.cache[cache_key][str(id_client)]
-        else:
-            req = self.make_request(f"/api/v1/client_prets/{id_client}")
-            self.cache[cache_key][str(id_client)] = req
-            return req
+#     def get_client_prets(self, id_client:int, using_cache:bool=True)->Dict[str, Any]:
+#         """using cache (or not), make a requests to get client info
+#         """
+#         cache_key = "prets"
+#         if str(id_client) in self.cache[cache_key] and using_cache:
+#             log.debug(f"using cache info: {list(self.cache[cache_key].keys())}")
+#             return self.cache[cache_key][str(id_client)]
+#         else:
+#             req = self.make_request(f"/api/v1/client_prets/{id_client}")
+#             self.cache[cache_key][str(id_client)] = req
+#             return req
 
-    def get_client_info(self, id_client:int, using_cache:bool=True)->Dict[str, Any]:
-        """using cache (or not), make a requests to get client info
-        """
-        cache_key = "info"
-        if str(id_client) in self.cache[cache_key] and using_cache:
-            log.debug(f"using cache info: {list(self.cache[cache_key].keys())}")
-            return self.cache[cache_key][str(id_client)]
-        else:
-            req = self.make_request(f"/api/v1/client_info/{id_client}")
-            self.cache[cache_key][str(id_client)] = req
-            return req
+#     def get_client_info(self, id_client:int, using_cache:bool=True)->Dict[str, Any]:
+#         """using cache (or not), make a requests to get client info
+#         """
+#         cache_key = "info"
+#         if str(id_client) in self.cache[cache_key] and using_cache:
+#             log.debug(f"using cache info: {list(self.cache[cache_key].keys())}")
+#             return self.cache[cache_key][str(id_client)]
+#         else:
+#             req = self.make_request(f"/api/v1/client_info/{id_client}")
+#             self.cache[cache_key][str(id_client)] = req
+#             return req
 
-    def make_client_prediction(self, id_client:int, using_cache:bool=True)->Dict[Any, Any]:
-        """using cache (or not), make a requests to get client prediction
-        """
-        cache_key = "prediction"
-        if str(id_client) in self.cache[cache_key] and using_cache:
-            log.debug(f"using cache prediction: {list(self.cache[cache_key].keys())}")
-            return self.cache[cache_key][str(id_client)]
-        else:
-            req = self.make_request(f"/api/v1/prediction/{id_client}")
-            self.cache[cache_key][str(id_client)] = req
-            return req
+#     def make_client_prediction(self, id_client:int, using_cache:bool=True)->Dict[Any, Any]:
+#         """using cache (or not), make a requests to get client prediction
+#         """
+#         cache_key = "prediction"
+#         if str(id_client) in self.cache[cache_key] and using_cache:
+#             log.debug(f"using cache prediction: {list(self.cache[cache_key].keys())}")
+#             return self.cache[cache_key][str(id_client)]
+#         else:
+#             req = self.make_request(f"/api/v1/prediction/{id_client}")
+#             self.cache[cache_key][str(id_client)] = req
+#             return req
 
-    def get_features_importance(self, id_client:int, using_cache:bool=True)->Dict[Any, Any]:
-        """using cache (or not), make a requests to get feature_importance for 1 client
-        """
-        cache_key = "feature_importance"
-        if str(id_client) in self.cache[cache_key] and using_cache:
-            log.debug(f"using cache feature_importance: {list(self.cache[cache_key].keys())}")
-            return self.cache[cache_key][str(id_client)]
-        else:
-            req = self.make_request(f"/api/v1/importance/{id_client}")
-            self.cache[cache_key][str(id_client)] = req
-            return req
+#     def get_features_importance(self, id_client:int, using_cache:bool=True)->Dict[Any, Any]:
+#         """using cache (or not), make a requests to get feature_importance for 1 client
+#         """
+#         cache_key = "feature_importance"
+#         if str(id_client) in self.cache[cache_key] and using_cache:
+#             log.debug(f"using cache feature_importance: {list(self.cache[cache_key].keys())}")
+#             return self.cache[cache_key][str(id_client)]
+#         else:
+#             req = self.make_request(f"/api/v1/importance/{id_client}")
+#             self.cache[cache_key][str(id_client)] = req
+#             return req
     
-    def load_cache(self,file, update:bool=False):
-        with open(file, 'r') as fp:
-            if update:
-                self.cache.update(json.load(fp))
-            else:
-                self.cache = json.load(fp)
+#     def load_cache(self,file, update:bool=False):
+#         with open(file, 'r') as fp:
+#             if update:
+#                 self.cache.update(json.load(fp))
+#             else:
+#                 self.cache = json.load(fp)
 
 
-    def save_cache(self, file):
-        """save the cache to the file
-        """
-        with open(file, 'w') as fp:
-            json.dump(self.cache, fp, indent=4)
+#     def save_cache(self, file):
+#         """save the cache to the file
+#         """
+#         with open(file, 'w') as fp:
+#             json.dump(self.cache, fp, indent=4)
 
-if __name__ == '__main__':
-    mydb = CSV_DataBase('application_test.csv')
-    print(DataBase.DataFrame2Json(mydb.get_id_client(125)))
-    print(mydb.get_group(125))
-    print(mydb.statOnGroup(mydb.get_group(125)))
+# if __name__ == '__main__':
+#     mydb = CSV_DataBase('application_test.csv')
+#     print(DataBase.DataFrame2Json(mydb.get_id_client(125)))
+#     print(mydb.get_group(125))
+#     print(mydb.statOnGroup(mydb.get_group(125)))
