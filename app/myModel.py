@@ -49,6 +49,7 @@ class CSV_DataBase(DataBase):
         print(id_client)
         mask = self.data['SK_ID_CURR'] == id_client
         print(3.3)
+        print(mask.sum())
         client_data = self.data.loc[mask,:]
         print(3.4)
         if 1 in client_data.shape : 
