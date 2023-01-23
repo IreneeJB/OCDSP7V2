@@ -132,24 +132,25 @@ class Model:
         return features_names
 
     def importance(self, id_client:int) :
-        try :
-            viz = FeatureImportances(self.model)
-            clients_informations = self.database.get_id_client(id_client)
-            viz.fit(clients_input)
-            return viz.features_[-30:], viz.feature_importances_[-30:]
-            
-        except :
+        # Récupération des variables
+        features_names = self.get_features_names()
+        clients_informations = self.database.get_id_client(id_client)
+        clients_input = self.model['transformer'].transform(clients_informations)
+        clients_input = pd.DataFrame(clients_input, columns = features_names)
 
-            features_names = self.get_features_names()
-            clients_informations = self.database.get_id_client(id_client)
-            clients_input = self.model['transformer'].transform(clients_informations)
-            clients_input = pd.DataFrame(clients_input, columns = features_names)
+        # Feature importance
+        shap_values = shap.TreeExplainer(self.model['classifier']).shap_values(clients_input)
+        shapdf = pd.DataFrame({'values' : shap_values[0],
+                               'names' : features_names})
 
-            # feature importance
-            viz = FeatureImportances(self.model['classifier'])
-            viz.fit(clients_input)
-            return viz.features_[-30:], viz.feature_importances_[-30:]
-        
+        # Sélection des interessants
+        mask_pos = shapdf['values'] > 0
+        mask_neg = shapdf['values'] < 0
+        index = shapdf[mask_neg].sort_values('values', ascending = True).head().index.to_list()
+        index = index + shapdf[mask_pos].sort_values('values', ascending = False).head().index.to_list()
+        shapdf = shapdf.loc[index,:]
+        return shapdf
+
 class ClientAPI:
     def __init__(self, server:str, cache:str=None):
         """

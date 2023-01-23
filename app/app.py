@@ -4,6 +4,7 @@ import pandas as pd
 import app.myModel as myModel
 import json
 from yellowbrick.model_selection import FeatureImportances
+import shap
 
 app = Flask(__name__)
 path = 'app/dataset/'
@@ -45,8 +46,8 @@ def get_client_prets(client_id:int) :
 def get_importance(client_id:int):
     client_id = int(client_id)
     myModel.log.info(f"get feature importance for {client_id}")
-    features, features_importance = mymodel.importance(client_id)
-    return flask.jsonify([features.tolist(), features_importance.tolist()])
+    shapdf = mymodel.importance(client_id)
+    return flask.jsonify([shapdf['names'].tolist(), shapdf['values'].tolist()])
 
 
 if __name__ == '__main__':
