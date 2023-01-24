@@ -150,7 +150,7 @@ class Model:
         shap_values = shap.TreeExplainer(self.model['classifier']).shap_values(clients_input)
         print(6)
         print(shap_values)
-        shapdf = pd.DataFrame({'values' : shap_values[0],
+        shapdf = pd.DataFrame({'values' : shap_values[0].reshape(-1,1),
                                'names' : features_names})
 
         # Sélection des interessants
