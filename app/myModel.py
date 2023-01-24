@@ -7,6 +7,7 @@ import statistics
 import requests
 import json
 import pickle
+import shap
 
 logging.basicConfig(format='%(asctime)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %H:%M:%S')
 log = logging.getLogger()
