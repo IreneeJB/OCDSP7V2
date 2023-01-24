@@ -60,6 +60,7 @@ class CSV_DataBase(DataBase):
         col = "OCCUPATION_TYPE"
         job = self.data.loc[self.data['SK_ID_CURR'] == id_client, col]
         statsdf = self.data.loc[:, ["AMT_INCOME_TOTAL","OCCUPATION_TYPE",]].groupby(col).median()
+        print(statsdf)
         return statsdf.loc[job,:]
 
     @classmethod
