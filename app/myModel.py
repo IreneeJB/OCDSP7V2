@@ -149,6 +149,7 @@ class Model:
         # Feature importance
         shap_values = shap.TreeExplainer(self.model['classifier']).shap_values(clients_input)
         print(6)
+        print(shap_values)
         shapdf = pd.DataFrame({'values' : shap_values[0],
                                'names' : features_names})
 
