@@ -33,7 +33,7 @@ class DataBase:
                 rdict[col] = val
             return rdict
         else: 
-            return [cls.DataFrame2Json(df.loc[i,:]) for i in df.index]
+            return [cls.DataFrame2Json(df.loc[[i],:]) for i in df.index]
 
 class CSV_DataBase(DataBase):
     def __init__(self, csv_file:str):
@@ -51,8 +51,8 @@ class CSV_DataBase(DataBase):
         print(3.3)
         print(mask.sum())
         print(mask)
-        print((self.data).iloc[1,:])
-        client_data = (self.data).loc[1,:]
+        print((self.data).iloc[mask,:])
+        client_data = (self.data).loc[mask,:]
         print(3.4)
         if 1 in client_data.shape : 
             print(3.5)
