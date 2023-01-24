@@ -16,15 +16,10 @@ myModel.log.info("ready to start")
 
 @app.route('/api/v1/client_info/<client_id>', methods=['GET'])
 def get_client_infos(client_id:int):
-    print(1)
     client_id = int(client_id)
-    print(2)
     myModel.log.info(f"get infos for {client_id}")
-    print(3)
     infos = myModel.DataBase.DataFrame2Json(dbClientModel.get_id_client(client_id))
-    print(4)
     myModel.log.info(infos)
-    print(5)
     return flask.jsonify(infos)
     #return json.dumps(infos)
 

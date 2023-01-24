@@ -44,23 +44,14 @@ class CSV_DataBase(DataBase):
     def get_id_client(self, id_client:int)->pd.DataFrame:
         """take a id_client and return a dataframe
         """
-        print(3.1)
         super().get_id_client()
-        print(3.2)
         print(id_client)
         mask = self.data['SK_ID_CURR'] == id_client
-        print(3.3)
-        print(mask.sum())
-        print(mask)
         print((self.data).loc[mask,:])
         client_data = (self.data).loc[mask,:]
-        print(3.4)
         if 1 in client_data.shape : 
-            print(3.5)
             client_data = client_data.to_numpy().reshape(1, -1)
-            print(3.6)
             client_data = pd.DataFrame(client_data, columns = self.data.columns)
-        print(3.7)
         return client_data 
 
     def get_group(self, id_client:int)->pd.DataFrame:
@@ -145,13 +136,19 @@ class Model:
 
     def importance(self, id_client:int) :
         # Récupération des variables
+        print(1)
         features_names = self.get_features_names()
+        print(2)
         clients_informations = self.database.get_id_client(id_client)
+        print(3)
         clients_input = self.model['transformer'].transform(clients_informations)
+        print(4)
         clients_input = pd.DataFrame(clients_input, columns = features_names)
+        print(5)
 
         # Feature importance
         shap_values = shap.TreeExplainer(self.model['classifier']).shap_values(clients_input)
+        print(6)
         shapdf = pd.DataFrame({'values' : shap_values[0],
                                'names' : features_names})
 
