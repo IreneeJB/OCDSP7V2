@@ -52,7 +52,7 @@ class CSV_DataBase(DataBase):
         print(mask.sum())
         print(mask)
         print((self.data).iloc[1,:])
-        client_data = (self.data).loc[mask,:]
+        client_data = (self.data).loc[1,:]
         print(3.4)
         if 1 in client_data.shape : 
             print(3.5)
