@@ -33,7 +33,7 @@ class DataBase:
                 rdict[col] = val
             return rdict
         else: 
-            return [cls.DataFrame2Json(df.loc[[i],:]) for i in df.index]
+            return [cls.DataFrame2Json(df.loc[i,:]) for i in df.index]
 
 class CSV_DataBase(DataBase):
     def __init__(self, csv_file:str):
