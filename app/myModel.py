@@ -57,29 +57,17 @@ class CSV_DataBase(DataBase):
     def get_group(self, id_client:int)->pd.DataFrame:
         """get a id_client to return a dataframe with list of client with same profil
         """
-        COLUMNS_GROUP = ["CODE_GENDER",
-                        #"NAME_EDUCATION_TYPE",
-                        #"NAME_FAMILY_STATUS",
-                        #'DAYS_EMPLOYED',
-                        #"DAYS_BIRTH",
-                        "ORGANIZATION_TYPE",
-                        "OCCUPATION_TYPE",
-                       # "NAME_INCOME_TYPE",
-        ]
-        df_c = self.get_id_client(id_client)
-        df = self.data
-        for col in COLUMNS_GROUP:
-            df = df[df[col] == df_c.loc[0,col]]
-        #df = self.data[(self.data[col]==df_c[col] for col in COLUMNS_GROUP)]
-        return df
+        col = "OCCUPATION_TYPE"
+        job = self.data[self.data['SK_ID_CURR'] == id_client, col]
+        statsdf = self.data.groupby(col).loc[:, ["AMT_INCOME_TOTAL","DAYS_EMPLOYED",]].median()
+        return statsdf.loc[job,:]
 
     @classmethod
     def statOnGroup(cls, df:pd.DataFrame): #->Dict[str:Dict[str, float]]:
         """get a dataframe and make statistics with
         """
         COLUMNS_STAT = ["AMT_INCOME_TOTAL",
-                        "DAYS_EMPLOYED",
-        ]
+                        "DAYS_EMPLOYED"]
         rdict = {}
         for col in COLUMNS_STAT:
             values = df[col].tolist()

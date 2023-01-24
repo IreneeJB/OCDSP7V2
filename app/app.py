@@ -30,8 +30,8 @@ def get_client_prediction(client_id:int):
 
 @app.route('/api/v1/group_info/<client_id>', methods=['GET'])
 def get_client_group(client_id:int):
-    myModel.log.info(f"get infor for {client_id} group")
-    return flask.jsonify(mymodel.predict_id(int(client_id)).tolist()[0])
+    myModel.log.info(f"get group median for {client_id} group")
+    return flask.jsonify(myModel.DataBase.DataFrame2Json(dbClientModel.get_group(client_id)))
 
 @app.route('/api/v1/client_prets/<client_id>', methods=['GET'])
 def get_client_prets(client_id:int) :
