@@ -58,7 +58,7 @@ class CSV_DataBase(DataBase):
         """get a id_client to return a dataframe with list of client with same profil
         """
         col = "OCCUPATION_TYPE"
-        job = self.data[self.data['SK_ID_CURR'] == id_client, col]
+        job = self.data.loc[self.data['SK_ID_CURR'] == id_client, col]
         statsdf = self.data.groupby(col).loc[:, ["AMT_INCOME_TOTAL","DAYS_EMPLOYED",]].median()
         return statsdf.loc[job,:]
 
